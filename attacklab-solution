@@ -1,0 +1,49 @@
+/* touch1 valid solution */
+48 c7 c7 fa 97 b9 59 68 c0 17 
+40 00 c3 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 
+78 dc 61 55 00 00 00 00 
+
+/* touch2 valid solution */
+48 c7 c7 fa 97 b9 59 68 ec 17 
+40 00 c3 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 00 00 
+78 dc 61 55 00 00 00 00 
+
+/* touch3 valid solution */
+00 00 00 00 00 00 00 00
+48 c7 c7 a8 dc 61 55 68
+fa 18 40 00 c3 00 00 00
+35 39 62 39 39 37 66 61
+00 00 00 00 00 00 00 00
+80 dc 61 55 00 00 00 00
+35 39 62 39 39 37 66 61 00
+
+/* touch4 valid solution */
+cc cc cc cc cc cc cc cc cc cc
+cc cc cc cc cc cc cc cc cc cc
+cc cc cc cc cc cc cc cc cc cc
+cc cc cc cc cc cc cc cc cc cc
+ab 19 40 00 00 00 00 00
+fa 97 b9 59 00 00 00 00  
+c5 19 40 00 00 00 00 00  
+ec 17 40 00 00 00 00 00 
+
+/* touch5 valid solution */
+cc cc cc cc cc cc cc cc cc cc
+cc cc cc cc cc cc cc cc cc cc
+cc cc cc cc cc cc cc cc cc cc
+cc cc cc cc cc cc cc cc cc cc
+ab 19 40 00 00 00 00 00
+20 00 00 00 00 00 00 00
+42 1a 40 00 00 00 00 00
+69 1a 40 00 00 00 00 00
+27 1a 40 00 00 00 00 00
+06 1a 40 00 00 00 00 00
+c5 19 40 00 00 00 00 00
+d6 19 40 00 00 00 00 00
+c5 19 40 00 00 00 00 00
+fa 18 40 00 00 00 00 00
+35 39 62 39 39 37 66 61 00
