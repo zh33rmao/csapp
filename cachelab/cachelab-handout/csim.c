@@ -14,6 +14,9 @@ int hit=0, miss=0, evicted=0;
 void usage();
 int init_cache();
 int free_cache();
+int update(unsigned address);
+int simulate(char* filePath);
+void stimes();
 
 typedef struct _cache_line{
     int valid_bit;    
@@ -31,7 +34,7 @@ int init_cache(){
         *(cache + i) = (cache_line*)malloc(sizeof(cache_line)*E);
         for(int j=0; j<E; j++){
             cache[i][j].valid_bit = 0; 
-            cache[i][j].tag = 0; 
+            cache[i][j].tag = 0xFFFFFFFF;// if eq 0 conflits 
             cache[i][j].time = 0; 
         } 
     }
@@ -47,50 +50,63 @@ int free_cache(){
     return 1;
 }
 
-int update(int addr){
-    unsigned mask = 0xffffffffffffffff; 
-    int s_addr = (addr >> b) & (mask >> (64 - s));
+int update(unsigned addr){
+    unsigned mask = 0xFFFFFFFF; 
+    int s_addr = (addr >> b) & (mask >> (32 - s));
     int t_addr = addr >> (s + b);
 
     // how to hit?
     for (int i=0; i<E; i++){
-        if (cache[s_addr][i].tag == t_addr && cache[s_addr][i].valid_bit == 1){
+        if (cache[s_addr][i].tag == t_addr ){
             hit++;
-            cache[s_addr][i].time++;
+            cache[s_addr][i].time = 0; // time eq 0 means it is used;
             return 1;
         }
     }
     // how to miss?
     for (int i=0; i<E; i++){
-        if (cache[s_addr][i].tag != t_addr){
+        if (cache[s_addr][i].valid_bit == 0){
             cache[s_addr][i].valid_bit = 1;
             cache[s_addr][i].tag = t_addr;
+            cache[s_addr][i].time = 0;
             miss++;
             // ccache[s_addr][i].tache[s_addr][i].time++;
             return 1;
         }
     }
     //how to evited?
-    int least_used = 99999999;
+    int least_used = 0;
     int flag = 0;
     for (int i=0; i<E; i++){
         //cache_line ca = cache[s_addr][i]; 
-        if ( cache[s_addr][i].time < least_used )
+        if ( cache[s_addr][i].time > least_used )
         {  
             least_used = cache[s_addr][i].time;
             flag = i; 
         }
     }
     evicted++;
+    miss++;
     cache[s_addr][flag].tag = t_addr;
     cache[s_addr][flag].time = 0;
-    cache[s_addr][flag].valid_bit = 1; 
+//    cache[s_addr][flag].valid_bit = 1; 
+    return 1;
+}
 
+void stimes(){
+    int S = 1 << s;
+    for(int i=0;i<S;i++){
+        for(int j=0;j<E;j++){
+            if(cache[i][j].valid_bit == 1)
+                cache[i][j].time++;        
+        }   
+    }
 }
 
 int simulate(char* filePath){
     FILE* pFile;
     pFile = fopen(filePath, "r");
+    printf("open file %s\n.", filePath);
     char identifier;
     unsigned address;
     int size;
@@ -100,21 +116,16 @@ int simulate(char* filePath){
         {
         case 'L':
             update(address);
-            hit++;
-            break;
-        case 'S':
-            update(address);
             break;
         case 'M':
             update(address);
-            miss++;
-            break;
-         
-        default:
+        case 'S':
+            update(address);
             break;
         }
+        stimes();
     }
-
+    return 1;
 }
 
 void usage(){
@@ -171,9 +182,9 @@ int main(int argc, char** argv)
 //       usage();
 //   }
     init_cache();
-    free_cache();
-    printf("free cache successfully!!!\n");
-    
+//    printf("free cache successfully!!!\n");
+    simulate(t);    
     printSummary(hit, miss, evicted);
+    free_cache();
     return 0;
 }
