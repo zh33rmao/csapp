@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
 #include <stdio.h>
@@ -70,10 +71,31 @@ int update(int addr){
         }
     }
     //how to evited?
+    int least_used = 99999999;
+    int flag = 0;
     for (int i=0; i<E; i++){
-        if ( )
+        //cache_line ca = cache[s_addr][i]; 
+        if ( cache[s_addr][i].time < least_used )
+        {  
+            least_used = cache[s_addr][i].time;
+            flag = i; 
+        }
     }
+    evicted++;
+    cache[s_addr][flag].tag = t_addr;
+    cache[s_addr][flag].time = 0;
+    cache[s_addr][flag].valid_bit = 1; 
 
+}
+
+int simulate(char* filePath){
+    FILE* pFile;
+    pFile = fopen(filePath, "r");
+    char identifier;
+    unsigned address;
+    int size;
+
+    while (fscanf(pFile, " %c %x,%d"))
 
 }
 
