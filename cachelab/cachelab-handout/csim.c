@@ -95,7 +95,25 @@ int simulate(char* filePath){
     unsigned address;
     int size;
 
-    while (fscanf(pFile, " %c %x,%d"))
+    while (fscanf(pFile, " %c %x,%d", &identifier, &address, &size)>0){
+        switch (identifier)
+        {
+        case 'L':
+            update(address);
+            hit++;
+            break;
+        case 'S':
+            update(address);
+            break;
+        case 'M':
+            update(address);
+            miss++;
+            break;
+         
+        default:
+            break;
+        }
+    }
 
 }
 
